@@ -1,1 +1,8 @@
-<h1>Hello, {{ who }}!</h1>
+{% extends "base.html" %}
+
+{% block title %}Django blog home page{% endblock %}
+
+{% block content %}
+    <h1>Django blog home page</h1>
+    <h1>Hello, {{ who }}!</h1>
+{% endblock %}
