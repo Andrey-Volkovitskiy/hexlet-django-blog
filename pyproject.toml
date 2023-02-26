@@ -9,6 +9,7 @@ packages = [{include = "hexlet_django_blog"}]
 [tool.poetry.dependencies]
 python = "^3.8.1"
 Django = "^4.1.7"
+python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"
