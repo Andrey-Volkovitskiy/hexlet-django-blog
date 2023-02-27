@@ -1,7 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.views import View
 
 from hexlet_django_blog.article.models import Article
+from .forms import ArticleForm
 # Create your views here.
 
 
@@ -21,15 +23,17 @@ class ArticleView(View):
         })
 
 
-# class Index(View):
-#     def get(self, request, *args, **kwargs):
-#         if (kwargs.get('tags') is None and
-#                 kwargs.get('article_id') is None):
-#             kwargs['tags'] = "python"
-#             kwargs['article_id'] = 42
+class AricleFormCreateView(View):
 
-#         return render(request, 'article/index.html', context=kwargs)
+    def get(self, request, *args, **kwargs):
+        form = ArticleForm()
+        return render(request, 'article/create.html', {'form': form})
 
-# def index(request):
-#     return render(request, 'article/index.html', context={
-#         'who': __name__})
+    def post(self, request, *args, **kwargs):
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Article saved.')
+            return redirect('articles_list')
+
+        return render(request, 'article/create.html', {'form': form})
