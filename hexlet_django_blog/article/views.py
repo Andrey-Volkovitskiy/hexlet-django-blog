@@ -61,3 +61,16 @@ class ArticleFormEditView(View):
         return render(request, 'article/edit.html', {
             'form': form,
             'id': id})
+
+
+class ArticleDeleteView(View):
+
+    def post(self, request, *args, **kwargs):
+        id = kwargs.get('id')
+        article = Article.objects.get(id=id)
+        if article:
+            article.delete()
+            messages.success(request, "Article deleted.")
+        else:
+            messages.error(request, "Error: article hasn't been deleted.")
+        return redirect('articles_list')
