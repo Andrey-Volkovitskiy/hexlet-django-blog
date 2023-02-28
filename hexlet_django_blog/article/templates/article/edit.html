@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if form.subject.errors %}
+        <ul>
+            {% for error in form.subject.errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h1>Edit article</h1>
+
+    <form action="{% url 'article_update' id=id %}" method="post">
+        {% csrf_token %}
+        <table border="1">
+            {{ form }}
+        </table>
+        <input type="submit" value="Save">
+    </form>
+{% endblock %}

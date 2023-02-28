@@ -23,7 +23,7 @@ class ArticleView(View):
         })
 
 
-class AricleFormCreateView(View):
+class ArticleFormCreateView(View):
 
     def get(self, request, *args, **kwargs):
         form = ArticleForm()
@@ -37,3 +37,27 @@ class AricleFormCreateView(View):
             return redirect('articles_list')
 
         return render(request, 'article/create.html', {'form': form})
+
+
+class ArticleFormEditView(View):
+
+    def get(self, request, *args, **kwargs):
+        id = kwargs['id']
+        article = Article.objects.get(id=id)
+        form = ArticleForm(instance=article)
+        return render(request, 'article/edit.html', {
+            'form': form,
+            'id': id})
+
+    def post(self, request, *args, **kwargs):
+        id = kwargs['id']
+        article = Article.objects.get(id=id)
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Article saved.')
+            return redirect('articles_list')
+
+        return render(request, 'article/edit.html', {
+            'form': form,
+            'id': id})
